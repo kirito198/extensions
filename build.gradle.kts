@@ -24,19 +24,16 @@ allprojects {
     }
 }
 
-fun Project.cloudstream(configuration: CloudstreamExtension.() -> Unit) = extensions.getByName<CloudstreamExtension>("cloudstream").configuration()
-fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
-
-subprojects {
+project(":KrmiziProvider") {
     apply(plugin = "com.android.library")
     apply(plugin = "kotlin-android")
     apply(plugin = "com.lagradost.cloudstream3.gradle")
 
-    cloudstream {
-        setRepo(System.getenv("GITHUB_REPOSITORY") ?: "https://github.com/kirito198/extensions")
+    extensions.getByName<CloudstreamExtension>("cloudstream").apply {
+        setRepo("https://github.com/kirito198/extensions")
     }
 
-    android {
+    extensions.getByName<BaseExtension>("android").apply {
         namespace = "com.kirito198"
         defaultConfig {
             minSdk = 21
